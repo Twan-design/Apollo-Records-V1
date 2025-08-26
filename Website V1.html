@@ -1,0 +1,762 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1">&lt;meta charset="utf-8"/&gt;</p>
+<p class="p1">&lt;meta name="viewport" content="width=device-width,initial-scale=1"/&gt;</p>
+<p class="p1">&lt;title&gt;Apollo Records — Fragile&lt;/title&gt;</p>
+<p class="p1">&lt;link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;800&amp;display=swap" rel="stylesheet"&gt;</p>
+<p class="p1">&lt;style&gt;</p>
+<p class="p1">:root{</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--bg:#0f0f10;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--topbar:#1c1d1e;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--panel:#151617;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--muted:#9aa3a6;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--text:#e6eef0;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--accent:#57d26f;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--accent-2:#3fb64a;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--danger:#ff6b6b;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--glass: rgba(255,255,255,0.03);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--shadow: 0 10px 30px rgba(0,0,0,.6);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--maxwidth:1100px;</p>
+<p class="p1">}</p>
+<p class="p1">*{box-sizing:border-box}</p>
+<p class="p1">html,body{height:100%;margin:0;font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}</p>
+<p class="p1">a{color:var(--accent);text-decoration:none;cursor:pointer}</p>
+<p class="p2"><br></p>
+<p class="p1">/* topbar */</p>
+<p class="p1">header#topbar{</p>
+<p class="p1"><span class="Apple-converted-space">  </span>position:fixed;left:0;right:0;top:0;height:64px;background:linear-gradient(180deg,var(--topbar),#111);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid rgba(255,255,255,0.03);z-index:140;</p>
+<p class="p1">}</p>
+<p class="p1">.brand{display:flex;align-items:center;gap:12px;cursor:pointer;font-weight:800;font-size:18px}</p>
+<p class="p1">.brand .accent{ color:var(--accent) }</p>
+<p class="p2"><br></p>
+<p class="p1">/* right area */</p>
+<p class="p1">#rightControls{display:flex;align-items:center;gap:10px}</p>
+<p class="p1">#authArea a{ color:#ffdfe0; font-weight:700; background:transparent;border:0; cursor:pointer; padding:8px 10px; border-radius:8px; }</p>
+<p class="p1">#authArea a#loginLink{ margin-right:24px } /* more spacing */</p>
+<p class="p1">#authArea .hiName{ color:#cfe8ff; font-weight:700; padding:8px 12px; border-radius:10px; background:transparent; }</p>
+<p class="p2"><br></p>
+<p class="p1">/* hamburger below topbar, appears only when near top-left */</p>
+<p class="p1">#hamburgerBtn{</p>
+<p class="p1"><span class="Apple-converted-space">  </span>position:fixed; left:16px; top:78px; z-index:130; width:54px;height:46px;border-radius:10px;background:var(--panel);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border:1px solid rgba(255,255,255,0.02); display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>cursor:pointer; opacity:0; transform:translateY(-8px); transition:opacity .18s ease,transform .18s ease; pointer-events:none;</p>
+<p class="p1">}</p>
+<p class="p1">#hamburgerBtn.visible{ opacity:1; transform:translateY(0); pointer-events:auto; }</p>
+<p class="p1">#hamburgerBtn .bars{width:20px;height:12px;position:relative}</p>
+<p class="p1">#hamburgerBtn .bars span{display:block;height:2px;background:#fff;border-radius:2px;position:absolute;left:0;right:0}</p>
+<p class="p1">#hamburgerBtn .bars span:nth-child(1){top:0}</p>
+<p class="p1">#hamburgerBtn .bars span:nth-child(2){top:5px}</p>
+<p class="p1">#hamburgerBtn .bars span:nth-child(3){top:10px}</p>
+<p class="p2"><br></p>
+<p class="p1">/* side menu */</p>
+<p class="p1">#sideMenu{</p>
+<p class="p1"><span class="Apple-converted-space">  </span>position:fixed;left:0;top:0;bottom:0;width:260px;background:linear-gradient(180deg,#121213,#1a1b1c);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>padding:22px; transform:translateX(-110%); transition:transform .28s cubic-bezier(.2,.9,.2,1); z-index:135; box-shadow:var(--shadow);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border-right:1px solid rgba(255,255,255,0.02)</p>
+<p class="p1">}</p>
+<p class="p1">#sideMenu.open{ transform:translateX(0) }</p>
+<p class="p1">#sideMenu h3{margin:0 0 12px;color:var(--accent);font-weight:800}</p>
+<p class="p1">.menuItem{display:block;padding:12px 12px;border-radius:10px;color:var(--text);margin-bottom:8px;border:1px solid transparent;cursor:pointer}</p>
+<p class="p1">.menuItem:hover{background:rgba(255,255,255,0.02);border-color:rgba(255,255,255,0.02)}</p>
+<p class="p2"><br></p>
+<p class="p1">/* main */</p>
+<p class="p1">main{ padding:96px 18px 140px; max-width:var(--maxwidth); margin:0 auto; min-height:calc(100vh - 160px) }</p>
+<p class="p1">.panel{ background:var(--panel); border-radius:12px; padding:18px; box-shadow:var(--shadow); border:1px solid rgba(255,255,255,0.02); }</p>
+<p class="p1">h1,h2,h3{ margin:0 0 8px 0; font-weight:800 }</p>
+<p class="p1">p.sub{ color:var(--muted); margin:0 0 12px 0 }</p>
+<p class="p2"><br></p>
+<p class="p1">/* home */</p>
+<p class="p1">.announce{ display:flex; gap:12px; align-items:flex-start; margin-bottom:14px }</p>
+<p class="p1">.announce .shot{width:64px;height:64px;border-radius:8px;background:linear-gradient(180deg,#1db95433,#1db95422);display:flex;align-items:center;justify-content:center;font-weight:700;color:#00150a}</p>
+<p class="p1">.spotifyBtn{ display:inline-flex; gap:8px; align-items:center; padding:8px 12px; border-radius:10px; background:rgba(29,185,84,0.12); border:1px solid rgba(29,185,84,0.18); color:#bff4cf; font-weight:700 }</p>
+<p class="p2"><br></p>
+<p class="p1">/* latest post preview */</p>
+<p class="p1">.latestPreview{ cursor:pointer; margin-top:12px; padding:12px; border-radius:10px; background:linear-gradient(180deg,#121213,#0f1010); border:1px solid rgba(255,255,255,0.02) }</p>
+<p class="p1">.latestPreview h4{ margin:0 0 6px 0 }</p>
+<p class="p1">.previewText{ color:var(--muted) }</p>
+<p class="p2"><br></p>
+<p class="p1">/* early access */</p>
+<p class="p1">.ea-hero{ text-align:center; margin-bottom:14px }</p>
+<p class="p1">.albumWrap{ display:grid; grid-template-columns: 220px 1fr; gap:18px; align-items:start }</p>
+<p class="p1">.cover{ width:220px;height:220px;border-radius:12px;background:linear-gradient(180deg,#222,#141414);display:flex;align-items:center;justify-content:center;color:#888;font-weight:700;border:1px dashed rgba(255,255,255,0.04) }</p>
+<p class="p1">.coverInfo{ margin-top:10px; text-align:left }</p>
+<p class="p1">.coverInfo .titleLine{ font-weight:800 }</p>
+<p class="p1">.coverInfo .byLine{ color:var(--muted); margin-top:6px }</p>
+<p class="p2"><br></p>
+<p class="p1">/* tracks */</p>
+<p class="p1">.trackList{ display:flex;flex-direction:column; gap:8px }</p>
+<p class="p1">.track{ display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:10px;background:linear-gradient(180deg,#121313,#0f1010);border:1px solid rgba(255,255,255,0.02);cursor:pointer }</p>
+<p class="p1">.track:hover{ transform:translateY(-3px); transition:transform .12s }</p>
+<p class="p1">.track .title{ font-weight:600 }</p>
+<p class="p1">.track small{ color:var(--muted) }</p>
+<p class="p2"><br></p>
+<p class="p1">/* overlay blur when locked */</p>
+<p class="p1">.blurWrap{ position:relative }</p>
+<p class="p1">.blurredContent{ filter: blur(6px); pointer-events:none; user-select:none; transition:filter .25s ease }</p>
+<p class="p1">.blurLock{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; background: linear-gradient(180deg, rgba(8,8,8,0.32), rgba(8,8,8,0.48)); border-radius:12px; padding:18px; text-align:center }</p>
+<p class="p2"><br></p>
+<p class="p1">/* CTA */</p>
+<p class="p1">.ctaBig{ background:linear-gradient(180deg,var(--accent),var(--accent-2)); padding:12px 20px;border-radius:12px;color:#03140b;font-weight:800;border:none;cursor:pointer; font-size:16px; box-shadow: 0 8px 24px rgba(63,182,74,0.18) }</p>
+<p class="p1">.linkInline{ color:var(--accent); text-decoration:underline; cursor:pointer }</p>
+<p class="p2"><br></p>
+<p class="p1">/* upcoming not blurred */</p>
+<p class="p1">.upcoming{ margin-top:18px; border-radius:12px; padding:14px; background:linear-gradient(180deg,#111,#0e0e0f); border:1px solid rgba(255,255,255,0.02); color:var(--muted); text-align:center }</p>
+<p class="p2"><br></p>
+<p class="p1">/* news editor */</p>
+<p class="p1">.newsEditor{ display:grid; grid-template-columns:1fr 320px; gap:14px }</p>
+<p class="p1">.postCard{ margin-bottom:12px; border-radius:10px;padding:12px;background:linear-gradient(180deg,#141515,#0f1010); border:1px solid rgba(255,255,255,0.02) }</p>
+<p class="p2"><br></p>
+<p class="p1">/* forms */</p>
+<p class="p1">.form{ max-width:520px;margin:8px 0 }</p>
+<p class="p1">.field{ display:flex;flex-direction:column; gap:6px; margin-bottom:10px }</p>
+<p class="p1">input.input, textarea.input{ background:#0f1010; border:1px solid rgba(255,255,255,0.03); color:var(--text); padding:10px; border-radius:8px; outline:none }</p>
+<p class="p1">button.btn{ background:linear-gradient(180deg,var(--accent),var(--accent-2)); color:#01210b;border:0;padding:10px 14px;border-radius:10px;font-weight:800;cursor:pointer }</p>
+<p class="p1">.smallBtn{ padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03); background:transparent;color:var(--text);cursor:pointer }</p>
+<p class="p2"><br></p>
+<p class="p1">/* profile */</p>
+<p class="p1">.profileRow{ display:flex; gap:10px; align-items:center; margin-top:10px }</p>
+<p class="p2"><br></p>
+<p class="p1">/* success banner */</p>
+<p class="p1">#successBanner{ position:fixed; left:50%; top:-90px; transform:translateX(-50%); background:linear-gradient(180deg,#86f6b8,#2fbf6a); color:#03210a; padding:12px 20px; border-radius:10px; font-weight:800; z-index:160; box-shadow:var(--shadow); transition:top .45s cubic-bezier(.22,.9,.3,1),opacity .25s }</p>
+<p class="p1">#successBanner.show{ top:22px }</p>
+<p class="p1">#successBanner.error{ background:linear-gradient(180deg,#ff9e9e,#ff6b6b); color:#2b0606 }</p>
+<p class="p2"><br></p>
+<p class="p1">/* now playing */</p>
+<p class="p1">#nowPlaying{ position:fixed; left:18px; right:18px; bottom:18px; z-index:150; background:linear-gradient(180deg,#0f1111,#0d0d0d); padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03); display:flex;align-items:center;justify-content:space-between;box-shadow:var(--shadow) }</p>
+<p class="p1">.np-left{ display:flex;gap:12px;align-items:center }</p>
+<p class="p1">.np-cover{ width:56px;height:56px;border-radius:8px;background:#121212; display:flex;align-items:center;justify-content:center;color:#777;font-weight:700 }</p>
+<p class="p1">.np-title{ font-weight:700 }</p>
+<p class="p1">.np-controls button{ background:transparent;border:1px solid rgba(255,255,255,0.03); padding:8px 10px;border-radius:8px;margin-left:8px; cursor:pointer; color:var(--text) }</p>
+<p class="p2"><br></p>
+<p class="p1">/* icon buttons style */</p>
+<p class="p1">.iconBtn{ width:36px;height:36px; display:inline-flex; align-items:center; justify-content:center; border-radius:8px; border:1px solid rgba(255,255,255,0.03); background:transparent; cursor:pointer }</p>
+<p class="p2"><br></p>
+<p class="p1">/* responsive */</p>
+<p class="p1">@media (max-width:900px){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>main{ padding:110px 12px 180px }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.newsEditor{ grid-template-columns:1fr }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.albumWrap{ grid-template-columns:1fr }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>#hamburgerBtn{ left:12px; top:74px }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>#nowPlaying{ left:10px; right:10px }</p>
+<p class="p1">}</p>
+<p class="p1">&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;!-- success banner --&gt;</p>
+<p class="p1">&lt;div id="successBanner" role="status" aria-live="polite"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;!-- top bar --&gt;</p>
+<p class="p1">&lt;header id="topbar"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="brand" title="Home" onclick="openPage('homePage')"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;svg width="26" height="26" viewBox="0 0 24 24" style="transform:translateY(2px)"&gt;&lt;circle cx="12" cy="12" r="10" fill="#0b2b13"/&gt;&lt;path d="M6 12 L10 8 L14 12 L18 8" stroke="#57d26f" stroke-width="1.6" fill="none" stroke-linecap="round"/&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div&gt;Apollo &lt;span class="accent"&gt;Records&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="rightControls"&gt;&lt;div id="authArea"&gt;&lt;/div&gt;&lt;/div&gt;</p>
+<p class="p1">&lt;/header&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;!-- hamburger --&gt;</p>
+<p class="p1">&lt;div id="hamburgerBtn" title="Menu" aria-label="Open menu"&gt;&lt;div class="bars"&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;!-- side menu --&gt;</p>
+<p class="p1">&lt;aside id="sideMenu" aria-hidden="true"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;h3&gt;Apollo Records&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="menuItem" onclick="openPage('homePage')"&gt;Home&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="menuItem" onclick="openPage('earlyAccessPage')"&gt;Early access&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="menuItem" onclick="openPage('buyCoffeePage')"&gt;Buy me a coffee&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="menuItem" onclick="openPage('newsPage')"&gt;News&lt;/div&gt;</p>
+<p class="p1">&lt;/aside&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;main&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- HOME --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;section id="homePage" class="page"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h1&gt;Latest announcements&lt;/h1&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="announce panel" style="align-items:center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="shot"&gt;S&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;strong&gt;New single: Fragile&lt;/strong&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="sub"&gt;Now available — listen on Spotify&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;a class="spotifyBtn" href="https://open.spotify.com/artist/45iLhH5VqpAXryQJpKxmmj?si=ahaWIU_4TlWfkHNiq6p00A" target="_blank" rel="noopener"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;svg width="16" height="16" viewBox="0 0 168 168"&gt;&lt;path fill="#1DB954" d="M84 0C37.6 0 0 37.6 0 84s37.6 84 84 84 84-37.6 84-84S130.4 0 84 0zM126 121c-1.6 2.6-4.8 3.4-7.4 1.8-20.2-12.2-45.6-15-75.8-8.6-3 0.8-5.8-1.2-6.4-4.2-0.8-3 1.2-5.8 4.2-6.4 34.8-9.2 64.8-6 88.4 10 2.6 1.8 3.2 5 1.8 7.4zM134 97.6c-2 3.2-6.2 4.2-9.4 2.2-23-13.8-58-18.6-85.4-10.8-3.6 1.2-7.4-0.8-8.6-4.4s0.8-7.4 4.4-8.6c31.8-10.8 71.4-5.6 98.6 12 3 2 3.8 6 1.4 8.6zM138 74c-25.6-15.6-67.8-17.2-92-10-4 1.4-8.4-0.8-9.8-4.8s0.8-8.4 4.8-9.8c31.8-11.6 80.8-9.6 111 12.2 3 2.2 3.6 6.4 1.2 9.2-2.4 2.8-6.6 3.6-10.2 1.2z"/&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>Open Spotify</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="panel"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;strong&gt;Website news&lt;/strong&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="sub"&gt;This site contains an Early Access album preview, a blog editor and profile area.&lt;/p&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div id="latestPostPreview" class="latestPreview" onclick="openNewsFromHome()" role="button" tabindex="0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h4&gt;Latest blog post&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="previewText" class="previewText"&gt;No posts yet. Publish one on the News page.&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- EARLY ACCESS --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;section id="earlyAccessPage" class="page" style="display:none"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="ea-hero"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;h2&gt;Early Access — Album: Fragile&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="sub"&gt;Exclusive preview of the album (9 tracks)&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="albumWrap panel blurWrap" id="albumBlock"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="cover"&gt;Cover Art&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- title &amp; by shown when unlocked --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="coverInfo" class="coverInfo" style="display:none"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="titleLine"&gt;Title&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="byLine"&gt;By Epic&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="trackList" id="trackList"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- removed the extra "Player" panel as requested --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- overlay when locked --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div id="lockOverlay" class="blurLock" style="display:flex"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="msg" style="font-weight:800;font-size:18px"&gt;I'm sorry, you don't have access to this page yet.&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="sub"&gt;Support me by buying the album early.&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="ctaBig" id="buyBtn"&gt;Buy early access for €15,99&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="sub"&gt;Or &lt;a class="linkInline" onclick="openPage('loginPage')"&gt;login&lt;/a&gt; if you have already made a purchase&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="panel" style="margin-top:18px"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="upcoming"&gt;Nothing here yet, you can buy the next album as soon as it becomes available&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- BUY ME A COFFEE --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;section id="buyCoffeePage" class="page" style="display:none"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2&gt;Buy Me a Coffee&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="panel"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="sub"&gt;Add an image and text describing how support helps the project.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;img src="coffee.jpg" alt="Coffee" style="max-width:320px;border-radius:10px"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- NEWS --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;section id="newsPage" class="page" style="display:none"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2&gt;News &amp; Updates&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="newsEditor"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="panel"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div style="margin-bottom:10px"&gt;&lt;strong&gt;Write an update&lt;/strong&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="field"&gt;&lt;input id="postTitle" class="input" placeholder="Title (required)"/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="field"&gt;&lt;textarea id="postBody" class="input" rows="6" placeholder="Write your update..."&gt;&lt;/textarea&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="field"&gt;&lt;input id="postMedia" class="input" placeholder="Image or video URL (optional)"/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div style="display:flex;gap:8px"&gt;&lt;button class="btn" onclick="publishPost()"&gt;Publish&lt;/button&gt;&lt;button class="smallBtn" onclick="clearPosts()"&gt;Clear posts&lt;/button&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="panel"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;strong&gt;Latest posts&lt;/strong&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="postList" style="margin-top:12px"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- LOGIN --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;section id="loginPage" class="page" style="display:none"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2&gt;Login&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="panel form"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="field"&gt;&lt;label&gt;Username&lt;/label&gt;&lt;input id="loginUser" class="input"/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="field"&gt;&lt;label&gt;Password&lt;/label&gt;&lt;input id="loginPass" class="input" type="password"/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div style="display:flex;gap:10px"&gt;&lt;button class="btn" onclick="handleLogin()"&gt;Login&lt;/button&gt;&lt;button class="smallBtn" onclick="openPage('registerPage')"&gt;Register instead&lt;/button&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- REGISTER --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;section id="registerPage" class="page" style="display:none"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2&gt;Create account&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="panel form"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="sub"&gt;First you must make an account&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="field"&gt;&lt;label&gt;Username&lt;/label&gt;&lt;input id="regUser" class="input"/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="field"&gt;&lt;label&gt;Password&lt;/label&gt;&lt;input id="regPass" class="input" type="password"/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div style="display:flex;gap:10px"&gt;&lt;button class="btn" onclick="handleRegister()"&gt;Create account&lt;/button&gt;&lt;button class="smallBtn" onclick="openPage('loginPage')"&gt;Have an account?&lt;/button&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- PURCHASE --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;section id="purchasePage" class="page" style="display:none"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2&gt;Purchase Early Access&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="panel form"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="sub"&gt;Price: €15,99 — demo checkout (no real payments)&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="field"&gt;&lt;label&gt;Card number&lt;/label&gt;&lt;input class="input" placeholder="4242 4242 4242 4242"/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="field"&gt;&lt;label&gt;Name on card&lt;/label&gt;&lt;input class="input" placeholder="Your name"/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div style="display:flex;gap:8px"&gt;&lt;button class="btn" onclick="completePurchase()"&gt;Pay €15,99&lt;/button&gt;&lt;button class="smallBtn" onclick="openPage('earlyAccessPage')"&gt;Cancel&lt;/button&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- PROFILE --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;section id="profilePage" class="page" style="display:none"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2&gt;Profile&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="panel"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div&gt;&lt;strong&gt;Username:&lt;/strong&gt; &lt;span id="profileUser"&gt;—&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div style="margin-top:12px"&gt;&lt;strong&gt;Change password&lt;/strong&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="field"&gt;&lt;input id="changePass" class="input" type="password" placeholder="New password"/&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div style="display:flex;gap:8px"&gt;&lt;button class="btn" onclick="handleChangePassword()"&gt;Update&lt;/button&gt;&lt;button class="smallBtn" onclick="logout()"&gt;Logout&lt;/button&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div style="margin-top:16px"&gt;&lt;strong&gt;Purchase history&lt;/strong&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;ul id="purchaseHistory" style="margin-top:8px"&gt;&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;/main&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;!-- Hidden audio element (controls not shown) --&gt;</p>
+<p class="p1">&lt;audio id="audio" preload="auto" style="display:none"&gt;&lt;/audio&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;!-- NOW PLAYING bar --&gt;</p>
+<p class="p1">&lt;div id="nowPlaying" style="display:none" aria-live="polite"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="np-left"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="np-cover"&gt;AL&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="np-title" id="npTitle"&gt;Now Playing&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="sub" id="npSub"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="np-controls"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="iconBtn" title="Previous" onclick="prevTrack()" aria-label="Previous"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- prev SVG --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;svg width="16" height="16" viewBox="0 0 24 24" fill="none"&gt;&lt;path d="M11 18V6M6 18V6L10.5 12L6 18Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/button&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="iconBtn" id="ppBtn" title="Play / Pause" onclick="playPause()" aria-label="PlayPause"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- play/pause icon will be swapped by JS --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;svg id="ppSvg" width="16" height="16" viewBox="0 0 24 24" fill="none"&gt;&lt;path d="M5 3v18l15-9L5 3z" fill="currentColor"/&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/button&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="iconBtn" title="Next" onclick="nextTrack()" aria-label="Next"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- next SVG --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;svg width="16" height="16" viewBox="0 0 24 24" fill="none"&gt;&lt;path d="M13 6v12M18 6v12L13.5 12L18 6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/button&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Shuffle SVG --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="iconBtn" id="shuffleBtn" title="Shuffle" onclick="toggleShuffle()" aria-label="Shuffle"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;svg width="16" height="16" viewBox="0 0 24 24" fill="none"&gt;&lt;path d="M16 3h5v5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/&gt;&lt;path d="M4 20l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/&gt;&lt;path d="M4 4l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/button&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Repeat SVG --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="iconBtn" id="repeatBtn" title="Repeat" onclick="toggleRepeat()" aria-label="Repeat"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;svg width="16" height="16" viewBox="0 0 24 24" fill="none"&gt;&lt;path d="M21 15V19H17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/&gt;&lt;path d="M3 9V5H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/&gt;&lt;path d="M21 15L16 10M3 9L8 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;script&gt;</p>
+<p class="p1">/* ---------- Storage &amp; data ---------- */</p>
+<p class="p1">const STORAGE_USERS = 'ap_users_v1';</p>
+<p class="p1">const STORAGE_CUR = 'ap_current_v1';</p>
+<p class="p1">const STORAGE_POSTS = 'ap_posts_v1';</p>
+<p class="p2"><br></p>
+<p class="p1">const ALBUM = [</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{ id:1, title:"01 — Fragile", length:"3:42", file:"01 Fragile.mp3" },</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{ id:2, title:"02 — Echoes", length:"4:10", file:"01 Fragile.mp3" },</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{ id:3, title:"03 — Neon Skies", length:"3:58", file:"01 Fragile.mp3" },</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{ id:4, title:"04 — Paper Hearts", length:"4:22", file:"01 Fragile.mp3" },</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{ id:5, title:"05 — Midnight Sun", length:"3:49", file:"01 Fragile.mp3" },</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{ id:6, title:"06 — Static", length:"4:04", file:"01 Fragile.mp3" },</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{ id:7, title:"07 — Gravity", length:"3:47", file:"01 Fragile.mp3" },</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{ id:8, title:"08 — Bloom", length:"4:18", file:"01 Fragile.mp3" },</p>
+<p class="p1"><span class="Apple-converted-space">  </span>{ id:9, title:"09 — Aurora", length:"4:00", file:"01 Fragile.mp3" }</p>
+<p class="p1">];</p>
+<p class="p2"><br></p>
+<p class="p1">let users = JSON.parse(localStorage.getItem(STORAGE_USERS) || '{}');</p>
+<p class="p1">let currentUser = localStorage.getItem(STORAGE_CUR) || null;</p>
+<p class="p1">let posts = JSON.parse(localStorage.getItem(STORAGE_POSTS) || '[]');</p>
+<p class="p2"><br></p>
+<p class="p1">/* audio */</p>
+<p class="p1">const audio = document.getElementById('audio');</p>
+<p class="p1">let nowIndex = -1;</p>
+<p class="p1">let isPlaying = false;</p>
+<p class="p1">let shuffle = false;</p>
+<p class="p1">let repeatMode = false;</p>
+<p class="p2"><br></p>
+<p class="p1">/* DOM refs */</p>
+<p class="p1">const authArea = document.getElementById('authArea');</p>
+<p class="p1">const hamburgerBtn = document.getElementById('hamburgerBtn');</p>
+<p class="p1">const sideMenu = document.getElementById('sideMenu');</p>
+<p class="p1">const trackListEl = document.getElementById('trackList');</p>
+<p class="p1">const lockOverlay = document.getElementById('lockOverlay');</p>
+<p class="p1">const playerArea = document.getElementById('playerArea'); // not used for visible player</p>
+<p class="p1">const successBanner = document.getElementById('successBanner');</p>
+<p class="p1">const nowPlayingBar = document.getElementById('nowPlaying');</p>
+<p class="p1">const npTitle = document.getElementById('npTitle');</p>
+<p class="p1">const npSub = document.getElementById('npSub');</p>
+<p class="p1">const ppSvg = document.getElementById('ppSvg');</p>
+<p class="p1">const ppBtn = document.getElementById('ppBtn');</p>
+<p class="p1">const shuffleBtn = document.getElementById('shuffleBtn');</p>
+<p class="p1">const repeatBtn = document.getElementById('repeatBtn');</p>
+<p class="p2"><br></p>
+<p class="p1">/* ---------- init ---------- */</p>
+<p class="p1">renderAuth();</p>
+<p class="p1">renderPosts();</p>
+<p class="p1">renderTrackList();</p>
+<p class="p1">updateEarlyAccessUI();</p>
+<p class="p1">setupInteractions();</p>
+<p class="p1">openPage('homePage');</p>
+<p class="p2"><br></p>
+<p class="p1">/* ---------- helpers ---------- */</p>
+<p class="p1">function persistUsers(){ localStorage.setItem(STORAGE_USERS, JSON.stringify(users)); }</p>
+<p class="p1">function persistPosts(){ localStorage.setItem(STORAGE_POSTS, JSON.stringify(posts)); }</p>
+<p class="p1">function showSuccess(msg, isError=false){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>successBanner.textContent = msg;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>successBanner.classList.toggle('error', !!isError);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>successBanner.classList.add('show');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>setTimeout(()=&gt; successBanner.classList.remove('show'), 2500);</p>
+<p class="p1">}</p>
+<p class="p1">function escapeHtml(s){ return String(s).replace(/[&amp;&lt;&gt;"']/g, c =&gt; ({'&amp;':'&amp;amp;','&lt;':'&amp;lt;','&gt;':'&amp;gt;','"':'&amp;quot;',"'":'&amp;#39;'})[c]); }</p>
+<p class="p2"><br></p>
+<p class="p1">/* ---------- UI render ---------- */</p>
+<p class="p1">function renderAuth(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>authArea.innerHTML = '';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(currentUser){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const hi = document.createElement('div');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>hi.className = 'hiName';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>hi.textContent = `Hi ${currentUser}`;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>hi.onclick = ()=&gt; openPage('profilePage');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>authArea.appendChild(hi);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const l = document.createElement('a'); l.id='loginLink'; l.textContent='Login'; l.onclick = ()=&gt; openPage('loginPage');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const r = document.createElement('a'); r.id='registerLink'; r.textContent='Register'; r.onclick = ()=&gt; openPage('registerPage');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>authArea.appendChild(l); authArea.appendChild(r);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">/* ---------- navigation &amp; menu ---------- */</p>
+<p class="p1">function openPage(id){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.querySelectorAll('main .page').forEach(p =&gt; p.style.display = 'none');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const el = document.getElementById(id);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(el) el.style.display = 'block';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>sideMenu.classList.remove('open');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>// player hide logic on navigation:</p>
+<p class="p1"><span class="Apple-converted-space">  </span>// if audio exists and is playing -&gt; keep bar visible</p>
+<p class="p1"><span class="Apple-converted-space">  </span>// if audio is paused (not playing) -&gt; hide bar when navigating away</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(!audio.paused){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// keep bar visible</p>
+<p class="p1"><span class="Apple-converted-space">  </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// paused: hide bar on navigation</p>
+<p class="p1"><span class="Apple-converted-space">    </span>hideNowPlaying();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>// page-specific actions</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(id === 'earlyAccessPage') updateEarlyAccessUI();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(id === 'profilePage') renderProfile();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(id === 'newsPage') renderPosts();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(id === 'homePage') renderLatestPreview();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>window.scrollTo(0,0);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">/* hamburger behavior - show only when cursor near top-left or touch */</p>
+<p class="p1">(function hamburgerBehavior(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>function showHamburger(){ hamburgerBtn.classList.add('visible'); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>function hideHamburger(){ if(!sideMenu.classList.contains('open')) hamburgerBtn.classList.remove('visible'); }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.addEventListener('mousemove', (e)=&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(e.clientX &lt; 90 &amp;&amp; e.clientY &lt; 110) showHamburger(); else hideHamburger();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}, {passive:true});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.addEventListener('touchstart', ()=&gt; showHamburger(), {passive:true});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>hamburgerBtn.addEventListener('click', ()=&gt; sideMenu.classList.toggle('open'));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.addEventListener('click', (e)=&gt; { if(!sideMenu.contains(e.target) &amp;&amp; !hamburgerBtn.contains(e.target)) sideMenu.classList.remove('open'); });</p>
+<p class="p1">})();</p>
+<p class="p2"><br></p>
+<p class="p1">/* ---------- auth actions ---------- */</p>
+<p class="p1">function handleRegister(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const u = (document.getElementById('regUser')||{}).value?.trim();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const p = (document.getElementById('regPass')||{}).value || '';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(!u || !p){ showSuccess('Enter username &amp; password', true); return; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(users[u]){ showSuccess('User already exists', true); return; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>users[u] = { password:p, bought:false, purchases:[] };</p>
+<p class="p1"><span class="Apple-converted-space">  </span>persistUsers();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>currentUser = u; localStorage.setItem(STORAGE_CUR, u);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>renderAuth();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>showSuccess('Account created and logged in');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>openPage('purchasePage'); // go to purchase</p>
+<p class="p1"><span class="Apple-converted-space">  </span>updateEarlyAccessUI();</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function handleLogin(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const u = (document.getElementById('loginUser')||{}).value?.trim();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const p = (document.getElementById('loginPass')||{}).value || '';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(!u || !p){ showSuccess('Enter username &amp; password', true); return; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(!users[u] || users[u].password !== p){ showSuccess('Invalid login', true); return; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>currentUser = u; localStorage.setItem(STORAGE_CUR, u);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>renderAuth();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>showSuccess('Welcome back, ' + u);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>openPage('earlyAccessPage');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>updateEarlyAccessUI();</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function logout(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>currentUser = null; localStorage.removeItem(STORAGE_CUR);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>renderAuth();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>showSuccess('Logged out');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>openPage('homePage');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>updateEarlyAccessUI();</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function handleChangePassword(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const np = (document.getElementById('changePass')||{}).value || '';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(!currentUser){ showSuccess('Not logged in', true); return; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(!np){ showSuccess('Enter a new password', true); return; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>users[currentUser].password = np; persistUsers();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('changePass').value = '';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>showSuccess('Password updated');</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">/* ---------- purchase flow ---------- */</p>
+<p class="p1">function completePurchase(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(!currentUser){ showSuccess('Please log in first', true); openPage('loginPage'); return; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>users[currentUser].bought = true;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>users[currentUser].purchases = users[currentUser].purchases || [];</p>
+<p class="p1"><span class="Apple-converted-space">  </span>users[currentUser].purchases.push({ id:Date.now(), amount:15.99, ts:new Date().toISOString(), desc:'Early Access — Fragile' });</p>
+<p class="p1"><span class="Apple-converted-space">  </span>persistUsers();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>renderAuth();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>showSuccess('Purchase successful — Early Access unlocked');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>openPage('earlyAccessPage');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>updateEarlyAccessUI();</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">/* ---------- early access UI ---------- */</p>
+<p class="p1">function updateEarlyAccessUI(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const bought = currentUser &amp;&amp; users[currentUser] &amp;&amp; users[currentUser].bought;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const albumBlock = document.getElementById('albumBlock');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const coverInfo = document.getElementById('coverInfo');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(!bought){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>albumBlock.classList.add('blurredContent');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>lockOverlay.style.display = 'flex';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>coverInfo.style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>albumBlock.classList.remove('blurredContent');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>lockOverlay.style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>coverInfo.style.display = 'block';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">/* ---------- render tracks &amp; playback ---------- */</p>
+<p class="p1">function renderTrackList(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>trackListEl.innerHTML = '';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>ALBUM.forEach((t, idx)=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const row = document.createElement('div');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>row.className = 'track';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>row.innerHTML = `&lt;div class="title"&gt;${t.title}&lt;/div&gt;&lt;small&gt;${t.length}&lt;/small&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>row.addEventListener('click', ()=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(!(currentUser &amp;&amp; users[currentUser] &amp;&amp; users[currentUser].bought)){</p>
+<p class="p1"><span class="Apple-converted-space">        </span>showSuccess('You must buy early access to play', true);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>openPage('registerPage');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>playTrack(idx);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>trackListEl.appendChild(row);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p1">}</p>
+<p class="p1">renderTrackList();</p>
+<p class="p2"><br></p>
+<p class="p1">function playTrack(index){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const t = ALBUM[index];</p>
+<p class="p1"><span class="Apple-converted-space">  </span>// set audio src and play</p>
+<p class="p1"><span class="Apple-converted-space">  </span>audio.src = t.file || ALBUM[0].file;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>audio.play().catch(()=&gt;{ /* autoplay might be blocked — user can press play */ });</p>
+<p class="p1"><span class="Apple-converted-space">  </span>nowIndex = index;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>isPlaying = true;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>showNowPlaying(t);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>// ensure UI updates</p>
+<p class="p1"><span class="Apple-converted-space">  </span>audio.onended = ()=&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(repeatMode) playTrack(nowIndex);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>else nextTrack();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>};</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function showNowPlaying(track){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>npTitle.textContent = track.title;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>npSub.textContent = track.length;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>nowPlayingBar.style.display = 'flex';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>// set play icon to pause</p>
+<p class="p1"><span class="Apple-converted-space">  </span>setPlayPauseIcon(true);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function hideNowPlaying(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>nowPlayingBar.style.display = 'none';</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function setPlayPauseIcon(playing){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const ppSvgEl = document.getElementById('ppSvg');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(playing){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// pause icon</p>
+<p class="p1"><span class="Apple-converted-space">    </span>ppSvgEl.innerHTML = '&lt;path d="M6 19h4V5H6v14zM14 5v14h4V5h-4z" fill="currentColor"/&gt;';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// play triangle</p>
+<p class="p1"><span class="Apple-converted-space">    </span>ppSvgEl.innerHTML = '&lt;path d="M5 3v18l15-9L5 3z" fill="currentColor"/&gt;';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// play/pause toggle</p>
+<p class="p1">function playPause(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(!audio.src){ showSuccess('No track loaded', true); return; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(audio.paused){ audio.play(); isPlaying = true; setPlayPauseIcon(true); showSuccess('Resumed'); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>else { audio.pause(); isPlaying = false; setPlayPauseIcon(false); showSuccess('Paused'); }</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// next / prev</p>
+<p class="p1">function nextTrack(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(shuffle) nowIndex = Math.floor(Math.random()*ALBUM.length);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>else nowIndex = (nowIndex + 1) % ALBUM.length;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>playTrack(nowIndex);</p>
+<p class="p1">}</p>
+<p class="p1">function prevTrack(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(shuffle) nowIndex = Math.floor(Math.random()*ALBUM.length);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>else nowIndex = (nowIndex - 1 + ALBUM.length) % ALBUM.length;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>playTrack(nowIndex);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function toggleShuffle(){ shuffle = !shuffle; showSuccess(shuffle ? 'Shuffle On' : 'Shuffle Off'); }</p>
+<p class="p1">function toggleRepeat(){ repeatMode = !repeatMode; showSuccess(repeatMode ? 'Repeat On' : 'Repeat Off'); }</p>
+<p class="p2"><br></p>
+<p class="p1">/* keep bottom player visible when playing across pages,</p>
+<p class="p1"><span class="Apple-converted-space">   </span>but when paused and user navigates, hide it. Implemented in openPage(). */</p>
+<p class="p1">/* Additionally, when audio is paused but user stays on same page, keep bar visible. */</p>
+<p class="p1">audio.addEventListener('play', ()=&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>isPlaying = true;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>setPlayPauseIcon(true);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>nowPlayingBar.style.display = 'flex';</p>
+<p class="p1">});</p>
+<p class="p1">audio.addEventListener('pause', ()=&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>isPlaying = false;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>setPlayPauseIcon(false);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>// when paused, we keep the bar until navigation happening (openPage handles hide)</p>
+<p class="p1">});</p>
+<p class="p2"><br></p>
+<p class="p1">/* ---------- news/blog ---------- */</p>
+<p class="p1">function publishPost(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const title = (document.getElementById('postTitle')||{}).value?.trim();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const body<span class="Apple-converted-space">  </span>= (document.getElementById('postBody')||{}).value?.trim();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const media = (document.getElementById('postMedia')||{}).value?.trim();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(!title || !body){ showSuccess('Title and content required', true); return; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>posts.unshift({ id:Date.now(), title, body, media, ts:new Date().toISOString() });</p>
+<p class="p1"><span class="Apple-converted-space">  </span>persistPosts();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('postTitle').value=''; document.getElementById('postBody').value=''; document.getElementById('postMedia').value='';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>renderPosts();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>showSuccess('Post published');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>renderLatestPreview();</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function renderPosts(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const list = document.getElementById('postList');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>list.innerHTML = '';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>posts.forEach(p=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const el = document.createElement('div'); el.className='postCard';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>el.innerHTML = `&lt;div style="font-weight:800"&gt;${escapeHtml(p.title)}&lt;/div&gt;&lt;div class="sub" style="font-size:12px"&gt;${new Date(p.ts).toLocaleString()}&lt;/div&gt;&lt;div style="margin-top:8px"&gt;${escapeHtml(p.body)}&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(p.media){</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(/\.(mp4|webm|ogg)$/i.test(p.media)){</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const v = document.createElement('video'); v.src=p.media; v.controls=true; v.style.width='100%'; v.style.marginTop='8px';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>el.appendChild(v);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const img = document.createElement('img'); img.src=p.media; img.alt='media'; img.style.width='100%'; img.style.borderRadius='8px'; img.style.marginTop='8px';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>el.appendChild(img);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>list.appendChild(el);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>renderLatestPreview();</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function renderLatestPreview(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const preview = document.getElementById('previewText');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(!posts.length){ preview.textContent = 'No posts yet. Publish one on the News page.'; return; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const latest = posts[0];</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const short = latest.body.length &gt; 180 ? latest.body.slice(0,180).trim() + '…' : latest.body;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>preview.textContent = short;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">/* when clicking preview on home, open news page */</p>
+<p class="p1">function openNewsFromHome(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>openPage('newsPage');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>// scroll to top of posts</p>
+<p class="p1"><span class="Apple-converted-space">  </span>setTimeout(()=&gt; document.getElementById('postList').scrollIntoView({behavior:'smooth'}), 120);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">/* clear posts */</p>
+<p class="p1">function clearPosts(){ posts=[]; persistPosts(); renderPosts(); showSuccess('Posts cleared'); renderLatestPreview(); }</p>
+<p class="p2"><br></p>
+<p class="p1">/* profile */</p>
+<p class="p1">function renderProfile(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('profileUser').textContent = currentUser || '—';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const ph = document.getElementById('purchaseHistory');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>ph.innerHTML = '';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(currentUser &amp;&amp; users[currentUser] &amp;&amp; users[currentUser].purchases &amp;&amp; users[currentUser].purchases.length){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>users[currentUser].purchases.slice().reverse().forEach(p=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const li = document.createElement('li');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>li.textContent = `${p.desc} — €${p.amount.toFixed(2)} — ${new Date(p.ts).toLocaleString()}`;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>ph.appendChild(li);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>ph.innerHTML = '&lt;li class="sub"&gt;No purchases yet&lt;/li&gt;';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">/* ---------- interactions and bindings ---------- */</p>
+<p class="p1">function setupInteractions(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>// buy button overlay</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('buyBtn').addEventListener('click', ()=&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(!currentUser){ showSuccess('First, create an account', true); openPage('registerPage'); return; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>openPage('purchasePage');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>// purchase page button</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.querySelector('#purchasePage .btn')?.addEventListener('click', (e)=&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// completePurchase will be called by completePurchase() exposed below</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>// keyboard escape to close menu</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.addEventListener('keydown',(e)=&gt; { if(e.key==='Escape') sideMenu.classList.remove('open'); });</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>// initial preview render</p>
+<p class="p1"><span class="Apple-converted-space">  </span>renderLatestPreview();</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">/* expose functions for inline usage (onclick attributes) */</p>
+<p class="p1">window.openPage = openPage;</p>
+<p class="p1">window.handleRegister = handleRegister;</p>
+<p class="p1">window.handleLogin = handleLogin;</p>
+<p class="p1">window.logout = logout;</p>
+<p class="p1">window.handleChangePassword = handleChangePassword;</p>
+<p class="p1">window.completePurchase = completePurchase;</p>
+<p class="p1">window.publishPost = publishPost;</p>
+<p class="p1">window.clearPosts = clearPosts;</p>
+<p class="p1">window.playPause = playPause;</p>
+<p class="p1">window.nextTrack = nextTrack;</p>
+<p class="p1">window.prevTrack = prevTrack;</p>
+<p class="p1">window.toggleShuffle = toggleShuffle;</p>
+<p class="p1">window.toggleRepeat = toggleRepeat;</p>
+<p class="p2"><br></p>
+<p class="p1">/* initial UI render */</p>
+<p class="p1">renderAuth();</p>
+<p class="p1">renderPosts();</p>
+<p class="p1">renderTrackList();</p>
+<p class="p1">updateEarlyAccessUI();</p>
+<p class="p1">renderLatestPreview();</p>
+<p class="p1">&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
